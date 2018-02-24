@@ -1,6 +1,3 @@
-/**
- * Created by fei on 2/2/18.
- */
 public class KthLargest {
 
     public int kthLargestElement(int k, int[] nums) {
@@ -52,8 +49,5 @@ public class KthLargest {
         KthLargest kthLargest = new KthLargest();
         int[] ds = {1,2,3,4,5,6,8,9,10,7};
         System.out.println(kthLargest.kthLargestElement(10,ds));
-
-
     }
-
 }
