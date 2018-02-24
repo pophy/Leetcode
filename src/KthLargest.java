@@ -1,56 +1,53 @@
-/**
- * Created by Fei on 2/4/2018.
- */
 public class KthLargest {
 
-
-    public int median(int[] nums) {
-        if (nums == null || nums.length == 0) {
+    public int kthLargestElement(int k, int[] nums) {
+        if (nums == null || nums.length == 0 || k < 0) {
             return -1;
         }
-
-        return partition(nums, 0, nums.length - 1,nums.length/2);
-
+        int start = 0;
+        int end = nums.length - 1;
+        while (true) {
+            int pos = partition(nums,start,end);
+            if (pos + 1 == k) {
+                return nums[pos];
+            } else if (pos + 1 > k) {
+                end = pos - 1;
+            } else {
+                start = pos + 1;
+            }
+        }
     }
 
-
-
-    private int partition(int[] nums, int start, int end, int targetIndex) {
-        int l = start + 1;
-        int r = end;
-        int pivot = nums[start];
-        while (l < r) {
-            if (nums[l] > pivot && nums[r] < pivot ) {
-                swap(nums,l++,r--);
+    public static int partition(int[] array, int left, int right) {
+        int pivot = array[left];
+        int l = left + 1;
+        int r = right;
+        while (l <= r) {
+            if (array[l] < pivot && array[r] > pivot) {
+                swap(array,l,r);
+                l++;
+                r--;
             }
-            if (l < r && nums[l] >= pivot) {
+            if (array[l] >= pivot) {
                 l++;
             }
-            if (l < r && nums[r] <= pivot) {
+            if (array[r] <= pivot) {
                 r--;
             }
         }
-        swap(nums,start,r);
-
-        if (r == targetIndex) {
-            return nums[r];
-        } else if (r > targetIndex) {
-            return partition(nums, start,r - 1,targetIndex);
-        } else {
-            return partition(nums, r + 1,end,targetIndex);
-        }
+        swap(array,left,r);
+        return r;
     }
 
-    private void swap(int[] nums, int i , int j) {
-        int tmp = nums[i];
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
         nums[i] = nums[j];
-        nums[j] = tmp;
+        nums[j] = temp;
     }
 
     public static void main(String[] args) {
         KthLargest kthLargest = new KthLargest();
-        int[] ds = {9,8,7,6,5,4,3,2,1};
-        System.out.println(kthLargest.median(ds));;
+        int[] ds = {1,2,3,4,5,6,8,9,10,7};
+        System.out.println(kthLargest.kthLargestElement(10,ds));
     }
-
 }

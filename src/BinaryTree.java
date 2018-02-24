@@ -1,32 +1,46 @@
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Fei on 2/4/2018.
+ * Created by fei on 1/4/18.
  */
 public class BinaryTree {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        List<Integer> resultList = new ArrayList<>();
+        if (root.left != null) {
+            List<Integer> list = inorderTraversal(root.left);
+            resultList.addAll(list);
+        }
+        if (root.right != null) {
+            List<Integer> list = inorderTraversal(root.right);
+            resultList.addAll(list);
+        }
 
-    private void inorderPrint(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        while (root != null) {
-            stack.push(root);
-            root = root.left;
-        }
-        while (!stack.isEmpty()) {
-            TreeNode node = stack.pop();
-            System.out.println(node.val);
-            if (node.right != null) {
-                stack.push(node.right);
-                while (node != null) {
-                    stack.push(node.right);
-                    node = node.right;
-                }
-            }
-        }
+        return resultList;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        TreeNode root = new TreeNode(1);
+        TreeNode left = new TreeNode(2);
+        TreeNode right = new TreeNode(3);
+        root.left = left;
+        root.right = right;
 
-
+        tree.inorderTraversal(root);
     }
 
 }
+
+
+   class TreeNode {
+      public int val;
+      public TreeNode left, right;
+      public TreeNode(int val) {
+          this.val = val;
+          this.left = this.right = null;
+      }
+  }
