@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 public class BinaryTreeRelated {
 
@@ -219,23 +220,45 @@ public class BinaryTreeRelated {
 
     public ReturnType maxDistanceInTree(Node root) {
         if (root == null) {
-            return new ReturnType(0,0);
+            return new ReturnType(0, 0);
         }
         ReturnType left = maxDistanceInTree(root.left);
         ReturnType right = maxDistanceInTree(root.right);
         int maxDistance = Math.max(left.maxDistance, right.maxDistance);
-        maxDistance = Math.max(maxDistance,left.h + right.h + 1);
-        int height = Math.max(left.h,right.h) + 1;
-        return new ReturnType(maxDistance,height);
+        maxDistance = Math.max(maxDistance, left.h + right.h + 1);
+        int height = Math.max(left.h, right.h) + 1;
+        return new ReturnType(maxDistance, height);
     }
 
 
-    public static class ReturnType{
+    public int numberOfTree(int n, int[] cache) {
+        if (n == 0 || n == 1) {
+            cache[n] = 1;
+            return 1;
+        }
+        if (n == 2) {
+            cache[n] = 2;
+            return 2;
+        }
+        if (cache[n] != -1) {
+            return cache[n];
+        }
+        int count = 0;
+        for (int i = 0; i <= n - 1; i++) {
+            count += numberOfTree(i, cache) * numberOfTree(n - i - 1, cache);
+        }
+        cache[n] = count;
+        return count;
+    }
+
+
+    public static class ReturnType {
         public int maxDistance;
         public int h;
 
         public ReturnType(int m, int h) {
-            this.maxDistance = m;;
+            this.maxDistance = m;
+            ;
             this.h = h;
         }
     }
@@ -360,7 +383,35 @@ public class BinaryTreeRelated {
         System.out.println(maxDistanceInTree(head2).maxDistance);
     }
 
+    public static int numTrees(int n) {
+        if (n < 2) {
+            return 1;
+        }
+        int[] num = new int[n + 1];
+        num[0] = 1;
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < i + 1; j++) {
+                num[i] += num[j - 1] * num[i - j];
+            }
+        }
+        return num[n];
+    }
 
+    @Test
+    public void test15() {
+        long start = System.nanoTime();
+        int[] cache = new int[16];
+        for (int i = 0; i < 16; i++) {
+            cache[i] = -1;
+        }
+        System.out.println(numberOfTree(15, cache));
+        long end = System.nanoTime();
+        System.out.println("Method 1: " + (end - start));
+        start = System.nanoTime();
+        System.out.println(numTrees(15));
+        end = System.nanoTime();
+        System.out.println("Method 2: " + (end - start));
+    }
 
 }
 
