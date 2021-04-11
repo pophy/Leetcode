@@ -251,6 +251,45 @@ public class BinaryTreeRelated {
         return count;
     }
 
+    /**
+     * 二叉树每个结点都有一个int型权值，给定一棵二叉树，要求计算出从根结点到 叶结点的所有路径中，权值和最大的值为多少。
+     */
+
+    public int maxPath(Node root) {
+        return dfs(root, 0);
+    }
+
+    public int maxPath2(Node root) {
+        return maxPathHelper(root);
+    }
+
+    //以X为头的树， maxPath
+    private int maxPathHelper(Node x) {
+        if (x.left == null && x.right == null) {
+            return x.value;
+        }
+        int next = Integer.MIN_VALUE;
+        if (x.left != null) {
+            next = maxPathHelper(x.left);
+        }
+        if (x.right != null) {
+            next = Math.max(next,maxPathHelper(x.right));
+        }
+        return next + x.value;
+    }
+
+    private int dfs(Node root, int sum) {
+        if (root == null) {
+            return Integer.MIN_VALUE;
+        }
+        if (root.left == null && root.right == null) {
+            return  sum + root.value;
+        }
+        int left = dfs(root.left, sum + root.value);
+        int right = dfs(root.right, sum + root.value);
+        return Math.max(left, right);
+    }
+
 
     public static class ReturnType {
         public int maxDistance;
@@ -411,6 +450,13 @@ public class BinaryTreeRelated {
         System.out.println(numTrees(15));
         end = System.nanoTime();
         System.out.println("Method 2: " + (end - start));
+    }
+
+    @Test
+    public void test16() {
+        Node root = createTestNode();
+        System.out.println(maxPath(root));
+        System.out.println(maxPath2(root));
     }
 
 }
