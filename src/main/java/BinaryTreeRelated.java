@@ -10,13 +10,13 @@ public class BinaryTreeRelated {
 
 
     //recursive - preorder - root -> left -> right
-    public static void preOrder(Node root) {
+    public static void preOrder(Node root, int level) {
         if (root == null) {
             return;
         }
-        System.out.print(root.value + " ");
-        preOrder(root.left);
-        preOrder(root.right);
+        System.out.println(root.value + " level:" + level);
+        preOrder(root.left, level + 1);
+        preOrder(root.right, level + 1);
     }
 
     public static void inOrder(Node root) {
@@ -273,7 +273,7 @@ public class BinaryTreeRelated {
             next = maxPathHelper(x.left);
         }
         if (x.right != null) {
-            next = Math.max(next,maxPathHelper(x.right));
+            next = Math.max(next, maxPathHelper(x.right));
         }
         return next + x.value;
     }
@@ -283,7 +283,7 @@ public class BinaryTreeRelated {
             return Integer.MIN_VALUE;
         }
         if (root.left == null && root.right == null) {
-            return  sum + root.value;
+            return sum + root.value;
         }
         int left = dfs(root.left, sum + root.value);
         int right = dfs(root.right, sum + root.value);
@@ -299,6 +299,50 @@ public class BinaryTreeRelated {
             this.maxDistance = m;
             ;
             this.h = h;
+        }
+    }
+
+    /**
+     * 找到一棵二叉树中，最大的搜索二叉子树，返回最大搜索二叉子树的节点个数
+     */
+
+    public Node getLargestBST(Node root) {
+        return countLargestBST(root).maxBSTHead;
+    }
+
+    public Info countLargestBST(Node root) {
+        if (root == null) {
+            return new Info(Integer.MAX_VALUE, Integer.MIN_VALUE, 0, null);
+        }
+        // 以root为头的树 是BST
+        Info leftInfo = countLargestBST(root.left);
+        Info rightInfo = countLargestBST(root.right);
+        int min = Math.min(Math.min(leftInfo.min, rightInfo.min), root.value);
+        int max = Math.max(Math.max(leftInfo.max, rightInfo.max), root.value);
+
+        Node maxBSTHead = leftInfo.count >= rightInfo.count ? leftInfo.maxBSTHead : rightInfo.maxBSTHead;
+        int count = Math.max(leftInfo.count, rightInfo.count);
+        if (leftInfo.maxBSTHead == root.left && leftInfo.max < root.value && rightInfo.maxBSTHead == root.right && rightInfo.min > root.value) {
+            count = leftInfo.count + rightInfo.count + 1;
+            maxBSTHead = root;
+        }
+        return new Info(min, max, count, maxBSTHead);
+    }
+
+
+    public static class Info {
+
+        int min;
+        int max;
+        int count;
+        Node maxBSTHead;
+
+        public Info(int min, int max, int count, Node maxBSTHead) {
+
+            this.min = min;
+            this.max = max;
+            this.count = count;
+            this.maxBSTHead = maxBSTHead;
         }
     }
 
@@ -335,7 +379,7 @@ public class BinaryTreeRelated {
 
     @Test
     public static void testPreOrder() {
-        preOrder(createTestNode());
+        preOrder(createTestNode(), 0);
     }
 
     @Test
@@ -381,13 +425,13 @@ public class BinaryTreeRelated {
     public void test12() {
         BinaryTreeRelated related = new BinaryTreeRelated();
         Node root = createTestNode();
-        preOrder(root);
+        preOrder(root, 0);
         StringBuilder sb = new StringBuilder();
         related.serialize(root, sb);
 //        System.out.println(sb.toString());
         System.out.println("===================================");
         root = deSerialize(sb.toString());
-        preOrder(root);
+        preOrder(root, 0);
 
     }
 
@@ -458,6 +502,30 @@ public class BinaryTreeRelated {
         System.out.println(maxPath(root));
         System.out.println(maxPath2(root));
     }
+
+    @Test
+    public void test17() {
+        Node head = new Node(6);
+        head.left = new Node(1);
+        head.left.left = new Node(0);
+        head.left.right = new Node(3);
+        head.right = new Node(12);
+        head.right.left = new Node(10);
+        head.right.left.left = new Node(4);
+        head.right.left.left.left = new Node(2);
+        head.right.left.left.right = new Node(5);
+        head.right.left.right = new Node(14);
+        head.right.left.right.left = new Node(11);
+        head.right.left.right.right = new Node(15);
+        head.right.right = new Node(13);
+        head.right.right.left = new Node(20);
+        head.right.right.right = new Node(16);
+
+        Node bst = getLargestBST(head);
+        preOrder(bst, 0);
+
+    }
+
 
 }
 
