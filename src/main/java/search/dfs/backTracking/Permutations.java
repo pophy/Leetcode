@@ -23,8 +23,6 @@ public class Permutations {
             result.add(new ArrayList<>(path));
             return;
         }
-
-
         for (int i = 0; i < nums.length; i++) {
             if (visited[i] == true) {
                 continue;

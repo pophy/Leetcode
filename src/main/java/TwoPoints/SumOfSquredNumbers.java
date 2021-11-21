@@ -9,8 +9,7 @@ public class SumOfSquredNumbers {
      */
 
     public boolean solution(int K) {
-        int l = 0;
-        int r = (int) Math.sqrt(K);
+        int l = 0; int r = (int)Math.sqrt(K);
         while (l <= r) {
             if (squre(l) + squre(r) == K) {
                 return true;
@@ -29,7 +28,7 @@ public class SumOfSquredNumbers {
 
     @Test
     public void test() {
-        System.out.println(solution(48));
+        System.out.println(solution(8));
     }
 
 }

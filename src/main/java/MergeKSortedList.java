@@ -9,42 +9,20 @@ import java.util.PriorityQueue;
  * Created by Fei on 1/7/2018.
  */
 public class MergeKSortedList {
-    public ListNode mergeKLists(List<ListNode> lists) {
-        if (lists == null) {
-            return null;
-        }
-
-        ListNode dummy = new ListNode(0);
-        ListNode tail = dummy;
-        PriorityQueue<ListNode> queue = new PriorityQueue(new listNodeComparator());
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+        ListNode dummy = new ListNode(-1);
+        ListNode pre = dummy;
         for (ListNode node : lists) {
-            if (node != null) {
-                queue.add(node);
-            }
+            pq.add(node);
         }
-
-        while (!queue.isEmpty()) {
-            ListNode lowest = queue.poll();
-            tail.next = lowest;
-            tail = tail.next;
-            if (lowest.next != null) {
-                queue.add(lowest.next);
+        while (!pq.isEmpty()) {
+            pre.next = pq.poll();
+            pre = pre.next;
+            if (pre.next != null) {
+                pq.add(pre.next);
             }
         }
         return dummy.next;
-
-    }
-
-    public static void main(String[] args) {
-        MergeKSortedList mergeKSortedList = new MergeKSortedList();
-        ListNode node1 = new ListNode(-1);
-        ListNode node2 = null;
-        ListNode node3 = new ListNode(2);
-        List<ListNode> list = new ArrayList<ListNode>();
-        list.add(node1);
-        list.add(node2);
-        list.add(node3);
-        mergeKSortedList.mergeKLists(list);
-
     }
 }

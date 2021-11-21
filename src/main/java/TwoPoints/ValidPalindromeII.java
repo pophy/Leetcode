@@ -11,12 +11,10 @@ public class ValidPalindromeII {
         if (str.length() == 0) {
             return true;
         }
-        int l = 0;
-        int r = str.length() - 1;
-        char[] arr = str.toCharArray();
+        int l = 0; int r = str.length() - 1;
         while (l <= r) {
-            if (arr[l] != arr[r]) {
-                return isPalindrome(arr, l + 1, r) || isPalindrome(arr, l, r-1);
+            if (str.charAt(l) != str.charAt(r)) {
+                return isPalindrome(str,l + 1,r) || isPalindrome(str, l,r - 1);
             }
             l++;
             r--;
@@ -24,9 +22,9 @@ public class ValidPalindromeII {
         return true;
     }
 
-    private boolean isPalindrome(char[] arr, int l, int r) {
+    private boolean isPalindrome(String str, int l, int r) {
         while (l <= r) {
-            if (arr[l] != arr[r]) {
+            if (str.charAt(l) != str.charAt(r)) {
                 return false;
             }
             l++;
@@ -37,7 +35,7 @@ public class ValidPalindromeII {
 
     @Test
     public void test() {
-        String str = "abccbaf";
+        String str = "abaabac";
         System.out.println(solution(str));
     }
 

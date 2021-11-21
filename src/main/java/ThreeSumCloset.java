@@ -4,27 +4,27 @@ import java.util.Arrays;
 public class ThreeSumCloset {
 
     public int threeSumClosest(int[] num, int target) {
-        if(num==null || num.length<3)
+        if (num == null || num.length < 3)
             return 0;
 
         int min = Integer.MAX_VALUE;
         int val = 0;
         Arrays.sort(num);
-        for(int i = 0; i<=num.length-3;i++){
-            int low = i+1;
-            int high = num.length-1;
-            while(low<high){
-                int sum = num[i]+num[low]+num[high];
-                if(Math.abs(target-sum)<min){
-                    min = Math.abs(target-sum);
+        for (int i = 0; i <= num.length - 3; i++) {
+            int low = i + 1;
+            int high = num.length - 1;
+            while (low < high) {
+                int sum = num[i] + num[low] + num[high];
+                if (Math.abs(target - sum) < min) {
+                    min = Math.abs(target - sum);
                     val = sum;
                 }
 
-                if(target==sum){
+                if (target == sum) {
                     return val;
-                }else if(target>sum){
+                } else if (target > sum) {
                     low++;
-                }else{
+                } else {
                     high--;
                 }
             }
@@ -33,9 +33,10 @@ public class ThreeSumCloset {
     }
 
     public static void main(String[] args) {
-        int[] data = new int[]{1,0,-1,-1,-1,-1,0,1,1,1,2};
+        int[] data = new int[]{1, 1, 1, 0};
         ThreeSumCloset threeSumCloset = new ThreeSumCloset();
-        threeSumCloset.threeSumClosest(data,7);
+        System.out.println(threeSumCloset.threeSumClosest(data, -100));
+        ;
     }
 
 }

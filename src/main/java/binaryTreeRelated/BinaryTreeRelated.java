@@ -1,10 +1,8 @@
+package binaryTreeRelated;
+
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 public class BinaryTreeRelated {
 
@@ -23,16 +21,16 @@ public class BinaryTreeRelated {
         if (root == null) {
             return;
         }
-        Stack<Node> stack = new Stack<>();
+        Deque<Node> stack = new LinkedList<>();
         Node current = root;
         stack.push(current);
         while (!stack.isEmpty()) {
-            if (current != null && current.left != null) {
+            if (current != null &&current.left != null) {
                 stack.push(current.left);
                 current = current.left;
             } else {
                 current = stack.pop();
-                System.out.println(current.value);
+                System.out.print(current.value + ", ");
                 if (current.right != null) {
                     stack.push(current.right);
                     current = current.right;
@@ -48,7 +46,7 @@ public class BinaryTreeRelated {
             return;
         }
         inOrder2(root.left);
-        System.out.print(root.value + " ");
+        System.out.print(root.value + ", ");
         inOrder2(root.right);
     }
 
@@ -231,6 +229,33 @@ public class BinaryTreeRelated {
     }
 
 
+
+
+
+
+    public void inorderTraversal(Node root, List<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        inorderTraversal(root.left,result);
+        result.add(root.value);
+        inorderTraversal(root.right,result);
+    }
+
+
+    @Test
+    public void testInorderTraversal() {
+        List<Integer> res = new ArrayList<>();
+        inOrder(createTestNode());
+        System.out.println("----------");
+        inOrder2(createTestNode());
+//        res.stream().forEach(n -> {
+//            System.out.print(n + ", ");
+//        });
+    }
+
+
+
     public int numberOfTree(int n, int[] cache) {
         if (n == 0 || n == 1) {
             cache[n] = 1;
@@ -384,6 +409,8 @@ public class BinaryTreeRelated {
 
     @Test
     public static void testInOrder() {
+        inOrder(createTestNode());
+        System.out.println("==============");
         inOrder2(createTestNode());
     }
 

@@ -1,4 +1,3 @@
-import com.sun.scenario.effect.Merge;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;

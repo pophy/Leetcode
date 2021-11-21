@@ -1,3 +1,5 @@
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -8,14 +10,16 @@ public class LargestHistogram {
         if (height == null || height.length == 0) {
             return 0;
         }
-
-        Stack<Integer> stack = new Stack<Integer>();
+        int[] newHeight = new int[height.length + 2];
         int max = 0;
-        for (int i = 0; i <= height.length; i++) {
-            int curt = (i == height.length) ? -1 : height[i];
-            while (!stack.isEmpty() && curt <= height[stack.peek()]) {
-                int h = height[stack.pop()];
-                int w = stack.isEmpty() ? i : i - stack.peek() - 1;
+        System.arraycopy(height, 0, newHeight, 1, height.length);
+        //store index in stack
+        Deque<Integer> stack = new LinkedList<>();
+        stack.push(0);
+        for (int i = 1; i < newHeight.length; i++) {
+            while (newHeight[stack.peek()] > newHeight[i]) {
+                int h = newHeight[stack.pop()];
+                int w = i - stack.peek() - 1;
                 max = Math.max(max, h * w);
             }
             stack.push(i);
@@ -26,7 +30,7 @@ public class LargestHistogram {
 
     public static void main(String[] args) {
         LargestHistogram largestHistogram = new LargestHistogram();
-        int[] ds = {3,2,1,1};
-        largestHistogram.largestRectangleArea(ds);
+        int[] ds = {2, 1, 2};
+        System.out.println(largestHistogram.largestRectangleArea(ds));
     }
 }

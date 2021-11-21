@@ -13,38 +13,40 @@ public class KthElement {
         }
         int start = 0;
         int end = m.length-1;
+        int n = m.length - k;
+
         while (true) {
-            int index = partition(m,start,end);
-            if (index + 1 == k) {
+            int index = partition(m,start, end);
+            if (index == n) {
                 return m[index];
             }
-            if (index + 1 > k) {
-                end = index-1;
+            if (index > n) {
+                end = index - 1;
             } else {
-                start = index + 1;
+                start=  index + 1;
             }
         }
     }
 
 
     public int partition(int[] array, int left, int right) {
-        int pivot = array[left];
+        int pivot = left;
         int l = left + 1;
         int r = right;
         while (l <= r) {
-            if (array[l] < pivot && array[r] > pivot) {
+            if (array[l] > array[pivot] && array[r] < array[pivot]) {
                 swap(array,l,r);
                 l++;
                 r--;
             }
-            if (array[l] >= pivot) {
+            if (array[l] <= array[pivot]) {
                 l++;
             }
-            if (array[r] <= pivot) {
+            if (array[r] >= array[pivot]) {
                 r--;
             }
         }
-        swap(array,left,r);
+        swap(array,pivot,r);
         return r;
     }
 
@@ -58,6 +60,15 @@ public class KthElement {
     public void test() {
         int[] m = {3,1,2,7,5};
         System.out.println(kthElement(m,3));
+        //test i++ vs ++i
+        int i = 3;
+        int a = i++;
+        i = 3;
+        int b = ++i;
+        System.out.println("a = " + a);
+        System.out.println("B = " + b);
+
+
     }
 
 }

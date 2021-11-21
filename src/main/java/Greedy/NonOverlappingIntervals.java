@@ -14,28 +14,23 @@ import java.util.Arrays;
 
 public class NonOverlappingIntervals {
 
-    public int solution(int[][] sections) {
-        Arrays.sort(sections, (s1, s2) -> {
-            return s1[1] - s2[1];
-        });
-        int count = 0;
-        int end = 0;
-        for (int i = 0; i < sections.length; i++) {
-            int[] section = sections[i];
-            if (section[0] >= end) {
-                end = section[1];
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[1] == b[1] ? b[0] - a[0] : a[1] - b[1]);
+        int end = Integer.MIN_VALUE, count = 0;
+        for (int[] cur : intervals) {
+            if (cur[0] >= end) {
                 count++;
+                end = cur[1];
             }
         }
-        return sections.length - count;
+        return intervals.length - count;
     }
 
     @Test
     public void test() {
-        int[][] sections = {
-                {1, 2}, {4, 7}, {3, 4}, {3, 8}
-        };
-        System.out.println(solution(sections));
+        int a = 6;
+        System.out.println(a&-a);
+
     }
 
 }

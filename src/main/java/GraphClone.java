@@ -5,7 +5,7 @@ import java.util.*;
 public class GraphClone {
 
     public static Node deepClone(Node node){
-       // Map<Node,Node> aggregateMap = new HashMap<Node, Node>();
+       // Map<binaryTreeRelated.Node,binaryTreeRelated.Node> aggregateMap = new HashMap<binaryTreeRelated.Node, binaryTreeRelated.Node>();
         Queue<Node> queue = new LinkedList();
         queue.add(node);
         Node copyNode = new Node(node.getId() + " copy");
